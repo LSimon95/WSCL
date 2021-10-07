@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<controlLoad>
+  <information>
+    <name>Control Loading Template</name>
+    <date>20200751 23:30:21</date>
+    <author>Simon</author>
+    <e-mail>qanpan.lo@gmail.com</e-mail>
+    <version>1.0.0</version>
+    <hardware>
+      <FireFang>V1</FireFang>
+    </hardware>
+  </information>
+  <clProperty>
+    <tas unit="kts"/>
+    <pAlt unit="ft"/>
+    <sw1 unit="num"/>
+  </clProperty>
+  <dynamic>
+    <axis name="x">
+      <limit min="-10" max="10">
+        <switch default="0">
+          <case indepedentVar="sw" cond="0">
+            <sum>
+              <product>
+                <property>x</property>
+                <value>-1.0</value>
+              </product>
+              <product>
+                <property>dx</property>
+                <value>-50</value>
+              </product>
+            </sum>
+          </case>
+          <case indepedentVar="sw" cond="1">
+            <sum>
+              <product>
+                <divide>
+                  <property>x</property>
+                  <value>25</value>
+                </divide>
+                <table row="tas" col="pAlt">
+                        0    5000   10000
+                    0   0    0      0
+                    100 0.8  0.6    0.5
+                    200 1    0.9    0.8
+                </table>
+                <value>-10</value>
+              </product>
+              <product>
+                <property>dx</property>
+                <value>-50</value>
+              </product>
+            </sum>
+          </case>
+        </switch>
+      </limit>
+    </axis>
+    <axis name="y">
+      <limit min="-10" max="10">
+        <sum>
+          <product>
+            <property>y</property>
+            <value>-1.0</value>
+          </product>
+          <product>
+            <property>dy</property>
+            <value>-50</value>
+          </product>
+        </sum>
+      </limit>
+    </axis>
+  </dynamic>
+</controlLoad>
